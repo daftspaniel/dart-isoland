@@ -1,4 +1,4 @@
 dart-isoland
 ============
 
-Isometric landscape gfx toy.
+Interactive isometric landscape gfx toy.
