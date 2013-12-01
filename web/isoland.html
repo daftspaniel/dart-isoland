@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Isoland</title>
+    <link rel="stylesheet" href="isoland.css">
+  </head>
+  <body>
+    <h1>Isoland</h1>
+      
+    <div style="margin:15px;position:absolute;left:5px;background-color:#ABD9DE;padding:5px;">
+    
+      <form style="font-size:10pt;">
+              
+        <div style="width:100px;">World Size</div>
+        <input type="range" min="5" max="99" id="WorldSize" value="22"  />
+        
+        <br />
+        
+        
+        <div style="width:100px;">Height</div>
+        <input type="range" min="0" max="30" id="HeightScale" value="10"  />
+        
+        <br />
+        
+        <div style="width:100px;">Zoom</div>
+        <input type="range" min="1" max="200" id="Zoom" value="10" />
+        
+        <br />
+        
+        <div style="width:100px;">X</div> 
+        <input type="range" min="-900" max="900" id="WorldX" value="170"  />
+        
+        <br />
+        
+        <div style="width:100px;">Y</div>
+        <input type="range" min="-950" max="950" id="WorldY" value="200" />
+                
+      </form>
+        
+        <input type="button" value="Regenerate" id="regenButton" />
+        
+        <br />
+        
+        <input type="button" value="Add Peaks" id="addPeaksButton" />
+        
+        <br />
+        
+        <input type="button" value="Erode Peaks" id="erodeWorldButton" />
+        
+        <br />
+        
+        <input type="button" value="Erode - Random" id="erodeRandWorldButton" />
+        
+        <br />    
+        
+        <input type="button" value="Grow Beaches" id="growBeachesButton" />
+        
+        <br />
+        
+        <input type="button" value="Flatten" id="flattenWorldButton" />
+    
+        <br />
+    
+        <input type="button" value="Invert" id="invertWorldButton" />
+        
+        <br />
+        
+        <input type="button" value="Flip N-S" id="flipNSButton" />
+        
+        <br />
+        
+        <input type="button" value="Flip E-W" id="flipEWButton" />
+
+    </div>
+    
+    <canvas id="surface" width="1200" height="800">
+    </canvas>
+
+    <script type="application/dart" src="isoland.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>
