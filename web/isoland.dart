@@ -20,117 +20,109 @@ InputElement flipNSButton;
 InputElement flipEWButton;
 
 void main() {
-
   CanvasElement ce = querySelector('#surface');
 
   CanvasRenderingContext2D c2d = ce.getContext("2d");
 
   tw = new world(c2d)
-        ..generateWorld()
-        ..draw(null);
+    ..generateWorld()
+    ..draw(null);
 
-  heightRange = querySelector('#HeightScale')
-      ..onChange.listen(Draw);
+  heightRange = querySelector('#HeightScale')..onChange.listen(Draw);
 
-  regenButton = querySelector('#regenButton')
-      ..onClick.listen(Regenerate);
+  regenButton = querySelector('#regenButton')..onClick.listen(Regenerate);
 
-  addPeaksButton = querySelector('#addPeaksButton')
-      ..onClick.listen(AddPeaks);
+  addPeaksButton = querySelector('#addPeaksButton')..onClick.listen(AddPeaks);
 
-  worldSizeRange = querySelector('#WorldSize')
-      ..onChange.listen(Resize);
+  worldSizeRange = querySelector('#WorldSize')..onChange.listen(Resize);
 
-  zoomRange = querySelector('#Zoom')
-      ..onChange.listen(Zoom);
+  zoomRange = querySelector('#Zoom')..onChange.listen(Zoom);
 
-  xRange = querySelector('#WorldX')
-      ..onChange.listen(Move);
+  xRange = querySelector('#WorldX')..onChange.listen(Move);
 
-  yRange = querySelector('#WorldY')
-      ..onChange.listen(Move);
+  yRange = querySelector('#WorldY')..onChange.listen(Move);
 
   growBeachesButton = querySelector('#growBeachesButton')
-      ..onClick.listen(GrowBeaches);
+    ..onClick.listen(GrowBeaches);
 
   flattenWorldButton = querySelector('#flattenWorldButton')
-      ..onClick.listen(FlattenWorld);
+    ..onClick.listen(FlattenWorld);
 
   invertWorldButton = querySelector('#invertWorldButton')
-      ..onClick.listen(InvertWorld);
+    ..onClick.listen(InvertWorld);
 
   erodeWorldButton = querySelector('#erodeWorldButton')
-      ..onClick.listen(ErodeWorld);
+    ..onClick.listen(ErodeWorld);
 
   erodeRandWorldButton = querySelector('#erodeRandWorldButton')
-      ..onClick.listen(ErodeWorldRandom);
+    ..onClick.listen(ErodeWorldRandom);
 
-  flipNSButton = querySelector('#flipNSButton')
-      ..onClick.listen(FlipWorldNS);
+  flipNSButton = querySelector('#flipNSButton')..onClick.listen(FlipWorldNS);
 
-  flipEWButton = querySelector('#flipEWButton')
-      ..onClick.listen(FlipWorldEW);
+  flipEWButton = querySelector('#flipEWButton')..onClick.listen(FlipWorldEW);
 
   print("main ${heightRange.value}");
 }
 
-Move(e){
-  tw.setWorldPos(xRange.valueAsNumber.toInt(),yRange.valueAsNumber.toInt());
+Move(e) {
+  tw.setWorldPos(xRange.valueAsNumber.toInt(), yRange.valueAsNumber.toInt());
   Draw(null);
 }
 
-Regenerate(e){
+Regenerate(e) {
   print("Regenerate");
-  tw..resetWorld()
+  tw
+    ..resetWorld()
     ..generateWorld();
   Draw(null);
 }
-AddPeaks(e){
+
+AddPeaks(e) {
   tw.addPeaks();
   Draw(null);
 }
 
-InvertWorld(e){
+InvertWorld(e) {
   tw.invertWorld();
   Draw(null);
 }
 
-FlattenWorld(e){
+FlattenWorld(e) {
   tw.flatWorld();
   Draw(null);
 }
 
-GrowBeaches(e){
+GrowBeaches(e) {
   print("GB");
   tw.growLevel(2);
   Draw(null);
 }
 
-ErodeWorld(e){
+ErodeWorld(e) {
   print("Erode");
   tw.erodeWorld();
   Draw(null);
 }
 
-ErodeWorldRandom(e){
+ErodeWorldRandom(e) {
   print("Erode Random");
   tw.erodeWorldRandom();
   Draw(null);
 }
 
-Zoom(e){
+Zoom(e) {
   print("Zoom");
   tw.setZoom(zoomRange.valueAsNumber.toInt());
   Draw(null);
 }
 
-Resize(e){
+Resize(e) {
   InputElement worldSizeRange = querySelector('#WorldSize');
-  tw.setWorldSize( worldSizeRange.valueAsNumber.toInt());
+  tw.setWorldSize(worldSizeRange.valueAsNumber.toInt());
   Regenerate(e);
 }
 
-Draw(e){
+Draw(e) {
   print("DRAW");
 
   // Get values from controls.
@@ -141,12 +133,12 @@ Draw(e){
   print("pop ${tw.HeightScale}");
 }
 
-FlipWorldEW(e){
+FlipWorldEW(e) {
   tw.flip("EW");
   tw.draw(null);
 }
 
-FlipWorldNS(e){
+FlipWorldNS(e) {
   tw.flip("NS");
   tw.draw(null);
 }

@@ -9,8 +9,7 @@ import 'dart:html';
  * Isometric perspective used to render.
  *
  */
-class world{
-
+class world {
   int HeightScale = 10;
 
   CanvasRenderingContext2D _ctx;
@@ -24,59 +23,75 @@ class world{
   List<String> ca = new List.filled(10, "");
   List<String> cae = new List.filled(10, "");
   List<String> cas = new List.filled(10, "");
-  Random _rng = new Random( new DateTime.now().millisecondsSinceEpoch );
+  Random _rng = new Random(new DateTime.now().millisecondsSinceEpoch);
 
-  world(this._ctx){
+  world(this._ctx) {
     resetWorld();
     setNormalPalette();
   }
 
   void setNormalPalette() {
-    ca[0]='#333377';cae[0]='#331700';cas[0]='#330100';
-    ca[1]='#aabb00';cae[1]='#aaa600';cas[1]='#aab000';
-    ca[2]='#007700';cae[2]='#006100';cas[2]='#004500';
-    ca[3]='#009900';cae[3]='#008300';cas[3]='#006700';
-    ca[4]='#00AA00';cae[4]='#009400';cas[4]='#007800';
-    ca[5]='#00BB00';cae[5]='#00a600';cas[5]='#008900';
-    ca[6]='#00CC00';cae[6]='#00b000';cas[6]='#00A000';
-    ca[7]='#00DD00';cae[7]='#00c800';cas[7]='#00AE00';
-    ca[8]='#00f900';cae[8]='#00d900';cas[8]='#00B900';
-    ca[9]='#FFFFFF';cae[9]='#444444';cas[9]='#333333';
+    ca[0] = '#333377';
+    cae[0] = '#331700';
+    cas[0] = '#330100';
+    ca[1] = '#aabb00';
+    cae[1] = '#aaa600';
+    cas[1] = '#aab000';
+    ca[2] = '#007700';
+    cae[2] = '#006100';
+    cas[2] = '#004500';
+    ca[3] = '#009900';
+    cae[3] = '#008300';
+    cas[3] = '#006700';
+    ca[4] = '#00AA00';
+    cae[4] = '#009400';
+    cas[4] = '#007800';
+    ca[5] = '#00BB00';
+    cae[5] = '#00a600';
+    cas[5] = '#008900';
+    ca[6] = '#00CC00';
+    cae[6] = '#00b000';
+    cas[6] = '#00A000';
+    ca[7] = '#00DD00';
+    cae[7] = '#00c800';
+    cas[7] = '#00AE00';
+    ca[8] = '#00f900';
+    cae[8] = '#00d900';
+    cas[8] = '#00B900';
+    ca[9] = '#FFFFFF';
+    cae[9] = '#444444';
+    cas[9] = '#333333';
   }
 
-  void resetWorld(){
+  void resetWorld() {
     _mapdata = new List<List<int>>();
 
-    for (int i=0;i<_width;i++)
+    for (int i = 0; i < _width; i++)
       _mapdata.add(new List<int>.filled(_height, 0));
 
     print(_mapdata[0][0]);
     print(_mapdata[7][7]);
   }
 
-  void flatWorld(){
-    for (int x=0; x<_width; x++)
-      for (int y=0; y<_height; y++)
-        _mapdata[x][y] = 0;
+  void flatWorld() {
+    for (int x = 0; x < _width; x++)
+      for (int y = 0; y < _height; y++) _mapdata[x][y] = 0;
   }
 
-  void invertWorld(){
+  void invertWorld() {
     int h = 0;
-    for (int x=0; x<_width; x++)
-      for (int y=0; y<_height; y++)
-      {
-        h = _mapdata[x][y];
-        if(h>0)
-        {
-          _mapdata[x][y] = 9 - h;
-        }
+    for (int x = 0; x < _width; x++)
+      for (int y = 0; y < _height; y++) {
+      h = _mapdata[x][y];
+      if (h > 0) {
+        _mapdata[x][y] = 9 - h;
       }
+    }
   }
 
-  void draw(e){
-
+  void draw(e) {
     int w = _tilewidth;
-    int hw = (_tilewidth~/2);
+    int hw = (_tilewidth ~/ 2);
 
     int ocx = 0;
     int ocy = 0;
@@ -84,110 +99,104 @@ class world{
     int h = 0;
     _ctx.clearRect(0, 0, 9999, 9999);
     _ctx.strokeStyle = '#333333';
-    for (int y=0; y<_height; y++)
-    for (int x=_width-1; x>-1; x--)
-      {
-        h = _mapdata[x][y];
-        hh = (h * HeightScale);
-        ocx = _ox + (x*w) + (y*w);
-        ocy = ((_oy + (y*hw)) - (x*hw)) - (hh);
+    for (int y = 0; y < _height; y++)
+      for (int x = _width - 1; x > -1; x--) {
+      h = _mapdata[x][y];
+      hh = (h * HeightScale);
+      ocx = _ox + (x * w) + (y * w);
+      ocy = ((_oy + (y * hw)) - (x * hw)) - (hh);
 
-        _ctx
-          ..beginPath()
-          ..fillStyle = ca[h]
-          ..moveTo(ocx, ocy)
-          ..lineTo(ocx + w, ocy - hw )
-          ..lineTo(ocx + w + w, ocy )
-          ..lineTo(ocx + w, ocy + hw )
-          ..closePath()
-          ..fill()
-          ..stroke()
-  
-          ..beginPath()
-          ..fillStyle = cae[h]
-          ..moveTo(ocx, ocy)
-          ..lineTo(ocx, ocy + hh )
-          ..lineTo(ocx + w, ocy + hw  + hh)
-          ..lineTo(ocx + w, ocy + hw  )
-          ..closePath()
-          ..fill()
-          ..stroke()
-  
-          ..beginPath()
-          ..fillStyle = cas[h]
-          ..moveTo(ocx + w, ocy + hw)
-          ..lineTo(ocx + w, ocy + hw + hh )
-          ..lineTo(ocx + w + w, ocy + hh )
-          ..lineTo(ocx + w + w, ocy )
-          ..closePath()
-          ..fill()
-          ..stroke();
-      }
-
+      _ctx
+        ..beginPath()
+        ..fillStyle = ca[h]
+        ..moveTo(ocx, ocy)
+        ..lineTo(ocx + w, ocy - hw)
+        ..lineTo(ocx + w + w, ocy)
+        ..lineTo(ocx + w, ocy + hw)
+        ..closePath()
+        ..fill()
+        ..stroke()
+        ..beginPath()
+        ..fillStyle = cae[h]
+        ..moveTo(ocx, ocy)
+        ..lineTo(ocx, ocy + hh)
+        ..lineTo(ocx + w, ocy + hw + hh)
+        ..lineTo(ocx + w, ocy + hw)
+        ..closePath()
+        ..fill()
+        ..stroke()
+        ..beginPath()
+        ..fillStyle = cas[h]
+        ..moveTo(ocx + w, ocy + hw)
+        ..lineTo(ocx + w, ocy + hw + hh)
+        ..lineTo(ocx + w + w, ocy + hh)
+        ..lineTo(ocx + w + w, ocy)
+        ..closePath()
+        ..fill()
+        ..stroke();
+    }
   }
 
-  void generateWorld(){
-    addTerrain((_width*0.495).toInt());
+  void generateWorld() {
+    addTerrain((_width * 0.495).toInt());
   }
 
   void addPeaks() {
-    addTerrain((_width*0.1).toInt());
+    addTerrain((_width * 0.1).toInt());
   }
 
-  void growLevel(int level){
-    for (int x=0; x<_width; x++)
-      for (int y=0; y<_height; y++)
-      {
-        if (_mapdata[x][y] == level){
-          drawPoint(x, y, level);
-        }
+  void growLevel(int level) {
+    for (int x = 0; x < _width; x++)
+      for (int y = 0; y < _height; y++) {
+      if (_mapdata[x][y] == level) {
+        drawPoint(x, y, level);
       }
+    }
   }
 
   void addTerrain(int iterations) {
-
-    for (int i=0; i <iterations; i++){
+    for (int i = 0; i < iterations; i++) {
       int spx = _rng.nextInt(_width);
       int spy = _rng.nextInt(_height);
       int height = _rng.nextInt(10);
 
-      drawPoint(spx+1, spy+1, height);
-      drawPoint(spx-1, spy-1, height);
-      drawPoint(spx-1, spy, height);
+      drawPoint(spx + 1, spy + 1, height);
+      drawPoint(spx - 1, spy - 1, height);
+      drawPoint(spx - 1, spy, height);
       drawPoint(spx, spy, height);
-      drawPoint(spx+1, spy, height);
-      drawPoint(spx+1, spy-1, height);
-      drawPoint(spx, spy+1, height);
-      drawPoint(spx-1, spy+1, height);
-      drawPoint(spx, spy-1, height);
+      drawPoint(spx + 1, spy, height);
+      drawPoint(spx + 1, spy - 1, height);
+      drawPoint(spx, spy + 1, height);
+      drawPoint(spx - 1, spy + 1, height);
+      drawPoint(spx, spy - 1, height);
     }
   }
 
   void drawPoint(int x, int y, int c) {
-
-    try{
-      if (c>_mapdata[x][y]) _mapdata[x][y] = c;
-    }
-    catch(e){return;}//Nasty but..
+    try {
+      if (c > _mapdata[x][y]) _mapdata[x][y] = c;
+    } catch (e) {
+      return;
+    } //Nasty but..
     c--;
-    if (c>0){
+    if (c > 0) {
+      if (Vary2()) drawPoint(x + 1, y - 1, c);
+      if (Vary2()) drawPoint(x, y - 1, c);
+      if (Vary2()) drawPoint(x - 1, y - 1, c);
 
-      if (Vary2()) drawPoint(x+1,y-1,c);
-      if (Vary2()) drawPoint(x,y-1,c);
-      if (Vary2()) drawPoint(x-1,y-1,c);
+      if (Vary2()) drawPoint(x - 1, y, c);
+      if (Vary2()) drawPoint(x, y, c);
+      if (Vary2()) drawPoint(x + 1, y, c);
 
-      if (Vary2()) drawPoint(x-1,y,c);
-      if (Vary2()) drawPoint(x,y,c);
-      if (Vary2()) drawPoint(x+1,y,c);
-
-      if (Vary2()) drawPoint(x+1,y+1,c);
-      if (Vary2()) drawPoint(x,y+1,c);
-      if (Vary2()) drawPoint(x-1,y+1,c);
-
+      if (Vary2()) drawPoint(x + 1, y + 1, c);
+      if (Vary2()) drawPoint(x, y + 1, c);
+      if (Vary2()) drawPoint(x - 1, y + 1, c);
     }
   }
-  
-  bool Vary2() { return _rng.nextInt(5)==1; }
+
+  bool Vary2() {
+    return _rng.nextInt(5) == 1;
+  }
 
   void setWorldSize(int i) {
     _width = i;
@@ -204,34 +213,25 @@ class world{
   }
 
   void erodeWorld() {
-    for (int x=0; x<_width; x++)
-      for (int y=0; y<_height; y++)
-      {
-        if (_mapdata[x][y] >4)
-          _mapdata[x][y] -= 1;
-      }
+    for (int x = 0; x < _width; x++)
+      for (int y = 0; y < _height; y++) {
+      if (_mapdata[x][y] > 4) _mapdata[x][y] -= 1;
+    }
   }
 
-
   void erodeWorldRandom() {
-    for (int x=0; x<_width; x++)
-      for (int y=0; y<_height; y++)
-      {
-        if (_mapdata[x][y] >0 && _rng.nextInt(2)==1)
-          _mapdata[x][y] -= 1;
-      }
+    for (int x = 0; x < _width; x++)
+      for (int y = 0; y < _height; y++) {
+      if (_mapdata[x][y] > 0 && _rng.nextInt(2) == 1) _mapdata[x][y] -= 1;
+    }
   }
 
   void flip(String s) {
-
-    if (s=="ns"){
-      for (int x=0; x<_width; x++)
-        _mapdata[x] =  new List.from( _mapdata[x].reversed);
+    if (s == "ns") {
+      for (int x = 0; x < _width; x++)
+        _mapdata[x] = new List.from(_mapdata[x].reversed);
+    } else {
+      _mapdata = new List.from(_mapdata.reversed);
     }
-    else{
-        _mapdata =  new List.from( _mapdata.reversed);
-    }
-
   }
 }
-
